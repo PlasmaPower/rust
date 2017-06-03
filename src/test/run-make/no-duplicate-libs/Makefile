@@ -5,8 +5,8 @@ ifdef IS_MSVC
 all:
 else
 all:
-	$(RUSTC) foo.rs
-	$(RUSTC) bar.rs
+	$(RUSTC) foo.rs -C panic=abort
+	$(RUSTC) bar.rs -C panic=abort
 	$(RUSTC) main.rs
 	$(call RUN,main)
 endif
