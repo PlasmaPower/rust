@@ -8,18 +8,19 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![feature(lang_items, alloc_system, compiler_builtins_lib)]
-#![no_std]
+#![feature(lang_items, alloc_system, compiler_builtins_lib, panic_abort)]
+#![feature(global_allocator, allocator_api)]
 #![crate_type = "dylib"]
+#![no_std]
 
 extern crate alloc_system;
 extern crate compiler_builtins;
+extern crate panic_abort;
+
+#[global_allocator]
+static A: alloc_system::System = alloc_system::System;
 
 #[no_mangle]
 pub extern fn foo() {}
 
-#[lang = "eh_personality"] fn eh_personality() {}
-#[lang = "eh_unwind_resume"] fn eh_unwind_resume() {}
 #[lang = "panic_fmt"] fn panic_fmt() -> ! { loop {} }
-#[no_mangle] pub extern fn rust_eh_register_frames () {}
-#[no_mangle] pub extern fn rust_eh_unregister_frames () {}
